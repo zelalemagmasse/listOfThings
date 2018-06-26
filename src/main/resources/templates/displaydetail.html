@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/newStylesheet.css">
+</head>
+<body class="bg3">
+<nav class="navbar navbar-expand-sm bg-light">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="listsites">Display All Sites</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/addlist">Add a Site</a>
+        </li>
+        <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchfor">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
+        </form>
+    </ul>
+</nav>
+<div class="container">
+    <h2>Detail about the Site</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="listing : ${lists}">
+            <td th:text="${listing.name}"></td>
+            <td th:text="${listing.url}"></td>
+
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
+
