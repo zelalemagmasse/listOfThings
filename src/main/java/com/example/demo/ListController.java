@@ -23,13 +23,13 @@ public class ListController {
     }
     @RequestMapping("/addlist")
     public String addList(Model model){
-        model.addAttribute("listt",new LinkList());
+        model.addAttribute("lists",new LinkList());
         return "listform";
     }
 
     @RequestMapping("/sitelist")
     public String listSites(Model model){
-        model.addAttribute("lists", listRepo.findAll());
+        model.addAttribute("lists", listRepo.findAllByOrderByDayEnteredDesc());
         return "listsites";
     }
     @PostMapping("/process")
@@ -42,7 +42,7 @@ public class ListController {
     public String updateMovie(@PathVariable("id") long id, Model model)
     {
         model.addAttribute("lists",listRepo.findById(id).get());
-        return "jobform";
+        return "listform";
     }
     @RequestMapping("/detail/{id}")
     public String showJob(@PathVariable("id") long id, Model model){
@@ -54,10 +54,10 @@ public class ListController {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteMovie(@PathVariable("id") long id, Model model)
+    public String deleteMovie(@PathVariable("id") long id)
     {
         listRepo.deleteById(id);
-        return "redirect:/showalljob";
+        return "redirect:/sitelist";
     }
     @RequestMapping("/search")
     public String searchPromises(Model model, HttpServletRequest request)
@@ -66,14 +66,14 @@ public class ListController {
 
         model.addAttribute("searchResults",true);
         model.addAttribute("lists",listRepo.findAllByUrlContainingIgnoreCase(searchedFor));
-        return "joblist";
+        return "listsites";
     }
     @RequestMapping("/redirect/{id}")
-    public String redirectExternal(Model model, HttpServletRequest request)
-    {
-        String redirectUrl = request.getParameter("redirectto");
+    public String redirect(@PathVariable("id") long id, Model model){
 
-        return "redirect:" + redirectUrl;
+        model.addAttribute("lists", listRepo.findById(id).get());
+       String redirectUrl="redirect:http://" + listRepo.findById(id).get().getUrl();
+        return  redirectUrl;
     }
 
 }
